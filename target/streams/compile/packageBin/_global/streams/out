@@ -1,0 +1,11 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /Users/sandeep/playground/funprog/target/scala-2.13/funprog_2.13-0.1.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/sandeep/playground/funprog/target/scala-2.13/classes[0m
+[0m[[0m[0mdebug[0m] [0m[0m	SecondChapter$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/sandeep/playground/funprog/target/scala-2.13/classes/SecondChapter$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	SecondChapter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/sandeep/playground/funprog/target/scala-2.13/classes/SecondChapter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	SecondChapter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/sandeep/playground/funprog/target/scala-2.13/classes/SecondChapter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
