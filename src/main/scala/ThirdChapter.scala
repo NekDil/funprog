@@ -47,6 +47,13 @@ object ThirdChapter extends App {
       case Cons(h, t) => Cons(h, append(t, b))
     }
 
+    // Exercise 3.6
+    def init[A](l: List[A]): List[A] = l match {
+      case Nil => sys.error("Nil list have no elements")
+      case Cons(h, Nil) => Nil
+      case Cons(h, t) => Cons(h, init(t))
+    }
+
   }
 
   // Exercise 3.1
@@ -68,4 +75,5 @@ object ThirdChapter extends App {
   println(List.drop(aList, 3))
   println(List.dropWhile(bList, (x: Int) => x % 5 != 0))
   println(List.append(aList, bList))
+  println(List.init(aList))
 }
