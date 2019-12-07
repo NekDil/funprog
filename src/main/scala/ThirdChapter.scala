@@ -110,6 +110,21 @@ object ThirdChapter extends App {
     // Exercise 3.9
     def length[A](l: List[A]): Int = foldRight(l, 0)((_: A, a: Int) => a + 1)
 
+    // Exercise 3.10
+    @tailrec
+    def foldLeft[A,B](as: List[A], z: B)(f: (A,B) => B): B = as match {
+      case Nil => z
+      case Cons(h, t) => foldLeft(t, f(h, z))(f)
+    }
+
+    // Exercise 3.11
+    def sumFL(l: List[Int]): Int = foldLeft(l, 0)(_ + _)
+    def productFL(l: List[Double]): Double = foldLeft(l, 1.0)(_ * _)
+    def lengthFL[A](l: List[A]): Int = foldLeft(l, 0)((_, a) => a + 1)
+
+    // Exercise 3.12
+    def reverseUsingFold[A](l: List[A]): List[A] = foldLeft(l, Nil:List[A])(Cons(_, _))
+
     def sum2(l: List[Int]): Int = foldRight(l, 0)(_ + _)
     def product2(l: List[Double]): Double = foldRight(l, 1.0)(_ * _)
     def sumIt(l: List[Int]): Int = foldRightIt(l, 0)(_ + _)
@@ -144,6 +159,7 @@ object ThirdChapter extends App {
   println(productIt(dList))
   println(reverseIt(aList))
   println(foldRight(aList, Nil:List[Int])(Cons(_, _)))
-  println(length(bList))
-
+  println(lengthFL(bList))
+  println(productFL(dList))
+  println(reverseUsingFold(aList))
 }
