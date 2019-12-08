@@ -166,6 +166,20 @@ object ThirdChapter extends App {
     def filterUsingFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
       flatMap(as)((a) => if(f(a)) List(a) else Nil)
 
+    // Exercise 3.22
+    def addLists(as: List[Int], bs: List[Int]): List[Int] = (as,bs) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(ha,ta), Cons(hb,tb)) => Cons(ha+hb, addLists(ta,tb))
+    }
+
+    // Exercise 3.23
+    def zipWith[A](as: List[A], bs: List[A])(f: (A, A) => A): List[A] = (as, bs) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(ha, ta), Cons(hb, tb)) => Cons(f(ha, hb), zipWith(ta, tb)(f))
+    }
+
     def sum2(l: List[Int]): Int = foldRight(l, 0)(_ + _)
     def product2(l: List[Double]): Double = foldRight(l, 1.0)(_ * _)
     def sumIt(l: List[Int]): Int = foldRightIt(l, 0)(_ + _)
@@ -213,5 +227,6 @@ object ThirdChapter extends App {
   println(filter(addOneToList(concat(lLists)))(_ % 2 == 0))
   println(flatMap(aList)(i => List(i,i)))
   println(filterUsingFlatMap(addOneToList(concat(lLists)))(_ % 2 == 0))
-
+  println(addLists(aList, bList))
+  println(zipWith(aList, bList)(_ - _))
 }
