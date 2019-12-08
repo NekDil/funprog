@@ -123,7 +123,48 @@ object ThirdChapter extends App {
     def lengthFL[A](l: List[A]): Int = foldLeft(l, 0)((_, a) => a + 1)
 
     // Exercise 3.12
-    def reverseUsingFold[A](l: List[A]): List[A] = foldLeft(l, Nil:List[A])(Cons(_, _))
+    def reverseUsingFoldL[A](l: List[A]): List[A] = foldLeft(l, Nil:List[A])(Cons(_, _))
+
+    // Exercise 3.13
+    def foldLeftFR[A,B](l: List[A], z: B): B = ???
+
+    // Exercise 3.14
+    def appendUsingFold[A](l: List[A], e: A): List[A] =
+      foldRight(l, Cons(e, Nil:List[A]))(Cons(_, _))
+
+    def appendUsingFold[A](l: List[A], r: List[A]): List[A] =
+      foldRight(l, r)(Cons(_,_))
+
+    // Exercise 3.15
+    def concat[A](ls: List[List[A]]): List[A] =
+      foldRight(ls, Nil: List[A])(append(_, _))
+
+    // Exercise 3.16
+    def addOneToList(l: List[Int]): List[Int] =
+      foldRight(l, Nil: List[Int])((a, b) => Cons(a + 1, b))
+
+    // Exercise 3.17
+    def doublesToStrings(ds: List[Double]): List[String] =
+      foldRight(ds, Nil:List[String])((h,t) => Cons(h.toString, t))
+
+    // Exercise 3.18
+    def map[A,B](as: List[A])(f: A => B): List[B] =
+      foldRight(as, Nil:List[B])((h,t) => Cons(f(h), t))
+
+    // Exercise 3.19
+    def filter[A](as: List[A])(f: A => Boolean): List[A] =
+      foldRight(as, Nil:List[A])((h,t) => if(f(h)) Cons(h, t) else t)
+
+    // Exercise 3.20
+    def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+      foldRight(as, Nil:List[B])((h,t) => append(f(h), t))
+
+    def flatMap2[A,B](as: List[A])(f: A => List[B]): List[B] =
+      concat(map(as)(f))
+
+    // Exercise 3.21
+    def filterUsingFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+      flatMap(as)((a) => if(f(a)) List(a) else Nil)
 
     def sum2(l: List[Int]): Int = foldRight(l, 0)(_ + _)
     def product2(l: List[Double]): Double = foldRight(l, 1.0)(_ * _)
@@ -145,7 +186,7 @@ object ThirdChapter extends App {
   val aList = List(1,2,3,4,5)
   val bList = List(1,2,3,4,5,6,7)
   val dList: List[Double] = List(1,2,3,4,5)
-
+  val lLists = List(aList, bList, List(99, 999, 9999))
 
 
   println(tail(aList))
@@ -161,5 +202,16 @@ object ThirdChapter extends App {
   println(foldRight(aList, Nil:List[Int])(Cons(_, _)))
   println(lengthFL(bList))
   println(productFL(dList))
-  println(reverseUsingFold(aList))
+  println(reverseUsingFoldL(aList))
+  println(appendUsingFold(aList, 42))
+  println(appendUsingFold(aList, bList))
+  println(concat(lLists))
+  println(addOneToList(concat(lLists)))
+  println(dList)
+  println(doublesToStrings(dList))
+  println(map(dList)(_.toString))
+  println(filter(addOneToList(concat(lLists)))(_ % 2 == 0))
+  println(flatMap(aList)(i => List(i,i)))
+  println(filterUsingFlatMap(addOneToList(concat(lLists)))(_ % 2 == 0))
+
 }
