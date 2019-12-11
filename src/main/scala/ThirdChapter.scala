@@ -180,6 +180,27 @@ object ThirdChapter extends App {
       case (Cons(ha, ta), Cons(hb, tb)) => Cons(f(ha, hb), zipWith(ta, tb)(f))
     }
 
+    // Exercise 3.24
+    @tailrec
+    def search[A](sup: List[A], sub: List[A]): Boolean = (sup, sub) match {
+      case (_, Nil) => true
+      case (Cons(h1, t1), Cons(h2, t2)) => h1 == h2 && search(t1, t2)
+      case _ => false
+    }
+
+    @tailrec
+    def search[A](as: List[A], e: A): Boolean = as match {
+      case Nil => false
+      case Cons(h, t) => (h == e) || search(t, e)
+    }
+
+    @tailrec
+    def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+      case Nil => sub == Nil
+      case _ if search(sup, sub) => true
+      case Cons(_, t) => hasSubsequence(t, sub)
+    }
+
     def sum2(l: List[Int]): Int = foldRight(l, 0)(_ + _)
     def product2(l: List[Double]): Double = foldRight(l, 1.0)(_ * _)
     def sumIt(l: List[Int]): Int = foldRightIt(l, 0)(_ + _)
@@ -229,4 +250,9 @@ object ThirdChapter extends App {
   println(filterUsingFlatMap(addOneToList(concat(lLists)))(_ % 2 == 0))
   println(addLists(aList, bList))
   println(zipWith(aList, bList)(_ - _))
+  println(search(bList, 7))
+  println(hasSubsequence(aList, bList))
+  println(hasSubsequence(bList, bList))
+  println(hasSubsequence(aList, reverseUsingFoldL(aList)))
+
 }
