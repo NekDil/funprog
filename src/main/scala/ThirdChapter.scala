@@ -255,4 +255,69 @@ object ThirdChapter extends App {
   println(hasSubsequence(bList, bList))
   println(hasSubsequence(aList, reverseUsingFoldL(aList)))
 
+  sealed trait Tree[+A]
+  case class Leaf[A](value: A) extends Tree[A]
+  case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  object Tree {
+    // Exercise 3.25
+    def size[A](atree: Tree[A]): Int = {
+      def go(btree: Tree[A], acc: Int): Int = btree match {
+        case Leaf(_) => 1
+        case Branch(l, r) => acc + go(l, acc) + go(r, acc)
+      }
+      go(atree, 0)
+    }
+
+    // Exercise 3.26
+    def maximum(t: Tree[Int]): Int = t match {
+      case Leaf(n) => n
+      case Branch(l,r) => maximum(l) max maximum(r)
+    }
+
+    // Exercise 3.27
+    def depth[A](t: Tree[A]): Int = t match {
+      case Leaf(_) => 0
+      case Branch(l, r) => (1 + depth(l)) max (1 + depth(r))
+    }
+
+    // Exercise 3.28
+    def map[A,B](t: Tree[A])(f: A => B): Tree[B] = t match {
+      case Leaf(a) => Leaf(f(a))
+      case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+    }
+
+    // Exercise 3.29
+    def fold[A,B](t: Tree[A])(f: A => B)(g: (B,B) => B): B = t match {
+      case Leaf(a) => f(a)
+      case Branch(l,r) => g(fold(l)(f)(g), fold(r)(f)(g))
+    }
+
+    def sizeViaFold[A](t: Tree[A]): Int =
+      fold(t)(a => 1)(1 + _ + _)
+
+    def maximumViaFold(t: Tree[Int]): Int =
+      fold(t)(a => a)(_ max _)
+
+    def depthViaFold[A](t: Tree[A]): Int =
+      fold(t)(a => 0)((d1,d2) => 1 + (d1 max d2))
+
+    def mapViaFold[A,B](t: Tree[A])(f: A => B): Tree[B] =
+      fold(t)(a => Leaf(f(a)): Tree[B])(Branch(_,_))
+
+  }
+  import Tree._
+  val aTree = Branch(Branch(Leaf(2), Leaf(4)), Branch(Leaf(8), Branch(Branch(Branch(Leaf(16), Leaf(32)), Leaf(64)), Leaf(128))))
+  println(size(aTree))
+  println(maximum(aTree))
+  println(depth(aTree))
+  println(depth(Branch(Leaf(1), Branch(Leaf(2), Leaf(3)))))
+  println(maximum(Tree.map(aTree)(_ * 2)))
+
+  println(sizeViaFold(aTree))
+  println(maximumViaFold(aTree))
+  println(depthViaFold(aTree))
+  println(depthViaFold(Branch(Leaf(1), Branch(Leaf(2), Leaf(3)))))
+  println(maximumViaFold(mapViaFold(aTree)(_ * 2)))
+  println(aTree)
 }
